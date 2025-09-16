@@ -10,8 +10,15 @@ Las imágenes están almacenadas en `storage/app/public/products/` pero no son a
 #### 1️⃣ **Verificar configuración en .env de producción**
 Asegúrate de que tu `.env` en producción contenga:
 ```env
+# OBLIGATORIO para imágenes
 FILAMENT_FILESYSTEM_DISK=public
 FILESYSTEM_DISK=public
+
+# RECOMENDABLE para rendimiento
+QUEUE_CONNECTION=database
+
+# OPCIONAL para mejor configuración
+APP_TIMEZONE=America/Bogota
 ```
 
 #### 2️⃣ **Ejecutar comandos en el terminal de Laravel Cloud**
