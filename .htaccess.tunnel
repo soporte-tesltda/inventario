@@ -1,0 +1,21 @@
+# Configuración PHP optimizada para Cloudflare Tunnel
+# Agregar estas líneas al archivo php.ini o crear un .htaccess
+
+# Límites de upload optimizados
+upload_max_filesize = 10M
+post_max_size = 12M
+max_file_uploads = 20
+memory_limit = 256M
+
+# Timeouts para conexiones lentas
+max_execution_time = 300
+max_input_time = 300
+default_socket_timeout = 300
+
+# Buffer de salida
+output_buffering = 4096
+zlib.output_compression = On
+
+# Configuración de sesiones
+session.gc_maxlifetime = 7200
+session.cookie_lifetime = 7200

@@ -1,0 +1,13 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Servidor Laravel TES LTDA",
+			"type": "shell",
+			"command": "php artisan serve --host=127.0.0.1 --port=8000",
+			"group": "build",
+			"isBackground": true,
+			"problemMatcher": []
+		}
+	]
+}
