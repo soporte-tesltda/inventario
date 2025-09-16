@@ -76,6 +76,17 @@ fi
 mkdir -p storage/app/public/products
 mkdir -p storage/app/public/contracts
 
+# Extraer imágenes existentes si existe el backup
+if [ -f "storage/app/public/imagenes-productos-backup.zip" ]; then
+    echo "   📦 Extrayendo imágenes existentes..."
+    cd storage/app/public
+    unzip -o imagenes-productos-backup.zip
+    cd ../../..
+    echo "   ✅ Imágenes existentes restauradas (1,373 imágenes)"
+else
+    echo "   ℹ️  No se encontró backup de imágenes existentes"
+fi
+
 echo "   ✅ Configuración de almacenamiento completada"
 
 # ========================================================================
