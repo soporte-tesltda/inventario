@@ -1,4 +1,4 @@
-{{-- Favicon meta tags adicionales para compatibilidad con Cloudflare --}}
+{{-- Favicon meta tags adicionales --}}
 <link rel="icon" type="image/x-icon" href="{{ url('/favicon.ico') }}">
 <link rel="shortcut icon" type="image/x-icon" href="{{ url('/favicon.ico') }}">
 <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('images/logo.png') }}">

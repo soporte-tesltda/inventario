@@ -18,7 +18,7 @@ Route::get('/', function (){
     return to_route('filament.admin.auth.login');
 })->name('login');
 
-// Ruta específica para favicon que funciona con Cloudflare
+// Ruta para favicon
 Route::get('/favicon.ico', function () {
     $faviconPath = public_path('images/logo.ico');
     if (file_exists($faviconPath)) {
