@@ -19,7 +19,7 @@
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.8",
         "swisnl/filament-backgrounds": "^1.1",
-        "openspout/openspout": "~4.24.0"
+        "openspout/openspout": "^4.32"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
