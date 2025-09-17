@@ -53,9 +53,9 @@ class MakeImagesPublic extends Command
                     $this->line("Would make public: {$imagePath}");
                 } else {
                     // Check if file exists in S3
-                    if (Storage::disk('s3')->exists($imagePath)) {
+                    if (Storage::disk('private')->exists($imagePath)) {
                         // Set file visibility to public
-                        Storage::disk('s3')->setVisibility($imagePath, 'public');
+                        Storage::disk('private')->setVisibility($imagePath, 'public');
                         $this->line("✅ Made public: {$imagePath}");
                         $successCount++;
                     } else {
