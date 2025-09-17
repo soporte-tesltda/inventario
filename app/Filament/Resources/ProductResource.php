@@ -75,7 +75,7 @@ class ProductResource extends Resource
                     ->description('Detalles del producto')                    ->schema([                        FileUpload::make('image')
                             ->image()
                             ->columnSpanFull()
-                            ->disk('public')
+                            ->disk(config('filament.default_filesystem_disk', 'private'))
                             ->directory('products')
                             ->visibility('public')
                             ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
