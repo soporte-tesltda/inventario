@@ -138,15 +138,9 @@ class Product extends Model
             return null;
         }
 
-        // Si la imagen está en S3 (prefijo products/), generar URL firmada
+        // Si la imagen está en S3 (prefijo products/), usar URL pública directa
         if (str_starts_with($this->image, 'products/')) {
-            try {
-                return \Illuminate\Support\Facades\Storage::disk('private')
-                    ->temporaryUrl($this->image, now()->addHours(1));
-            } catch (\Exception $e) {
-                // Fallback a URL directa si falla la firma
-                return \Illuminate\Support\Facades\Storage::disk('private')->url($this->image);
-            }
+            return \Illuminate\Support\Facades\Storage::disk('private')->url($this->image);
         }
 
         // Si la imagen ya tiene el prefijo storage, devolverla tal como está

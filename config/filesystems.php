@@ -54,7 +54,6 @@ return [
             'endpoint' => env('AWS_ENDPOINT'),
             'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', true),
             'visibility' => 'public',
-            'temporary_url_timeout' => 3600, // URLs válidas por 1 hora
             'throw' => false,
         ],
 
