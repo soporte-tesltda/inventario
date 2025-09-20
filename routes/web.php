@@ -35,3 +35,8 @@ Route::get('/images/favicon.ico', function () {
     return redirect('/favicon.ico');
 });
 
+// Proxy para imágenes de productos desde Cloudflare R2
+Route::get('/images/products/{path}', [App\Http\Controllers\ImageProxyController::class, 'show'])
+    ->where('path', '.*')
+    ->name('image.proxy');
+

@@ -48,12 +48,13 @@ return [
             'driver' => 's3',
             'key' => 'b08e62c6e3cddddb01214a7e758350f1',
             'secret' => '82f387d7f56fc385e703581ee6303d25f1fc0bc931d7c37d2df98b982ae55349',
-            'region' => 'us-east-1',
+            'region' => 'auto',
             'bucket' => 'fls-9fe4b6bb-9be3-4819-bfab-ac2b4a5659ee',
             'url' => 'https://367be3a2035528943240074d0096e0cd.r2.cloudflarestorage.com',
             'endpoint' => 'https://367be3a2035528943240074d0096e0cd.r2.cloudflarestorage.com',
             'use_path_style_endpoint' => true,
             'visibility' => 'public',
+            'temporary_url_timeout' => 86400, // 24 horas en segundos
             'throw' => false,
         ],
 

@@ -138,34 +138,10 @@ class Product extends Model
             return null;
         }
 
-        // Si la imagen está en S3 (prefijo products/), construir URL correcta para Cloudflare R2
-        if (str_starts_with($this->image, 'products/')) {
-            // Usar configuración del disco directamente (con fallbacks incorporados)
-            $diskConfig = config('filesystems.disks.private');
-            $endpoint = $diskConfig['endpoint'] ?? null;
-            $bucket = $diskConfig['bucket'] ?? null;
-            
-            // Si tenemos endpoint y bucket, construir URL manualmente para path-style
-            if ($endpoint && $bucket) {
-                // Para Cloudflare R2 con path-style: endpoint/bucket/file
-                return "{$endpoint}/{$bucket}/{$this->image}";
-            }
-            
-            // Fallback: usar Storage URL nativo
-            try {
-                return \Illuminate\Support\Facades\Storage::disk('private')->url($this->image);
-            } catch (\Exception $e) {
-                return null;
-            }
-        }
-
-        // Si la imagen ya tiene el prefijo storage, devolverla tal como está
-        if (str_starts_with($this->image, 'storage/')) {
-            return asset($this->image);
-        }
-
-        // Para imágenes sin prefijo, asumir que están en el directorio raíz de storage público
-        return asset('storage/' . $this->image);
+        // Usar proxy interno para servir imágenes desde Cloudflare R2
+        // Esto evita problemas de CORS y autenticación
+        $filename = basename($this->image); // Solo el nombre del archivo, sin 'products/'
+        return url('/images/products/' . $filename);
     }
 
     /**
