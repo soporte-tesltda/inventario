@@ -38,5 +38,6 @@ Route::get('/images/favicon.ico', function () {
 // Proxy para imágenes de productos desde Cloudflare R2
 Route::get('/images/products/{path}', [App\Http\Controllers\ImageProxyController::class, 'show'])
     ->where('path', '.*')
+    ->middleware(['optimize.image', 'throttle:120,1']) // 120 requests per minute con optimización
     ->name('image.proxy');
 

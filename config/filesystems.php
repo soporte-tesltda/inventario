@@ -56,6 +56,12 @@ return [
             'visibility' => 'public',
             'temporary_url_timeout' => 86400, // 24 horas en segundos
             'throw' => false,
+            'options' => [
+                'http' => [
+                    'timeout' => 10, // Timeout de 10 segundos para operaciones HTTP
+                    'connect_timeout' => 5, // Timeout de conexión de 5 segundos
+                ]
+            ],
         ],
 
     ],
