@@ -75,7 +75,7 @@ class ProductResource extends Resource
                     ->description('Detalles del producto')                    ->schema([                        FileUpload::make('image')
                             ->image()
                             ->columnSpanFull()
-                            ->disk(config('filament.default_filesystem_disk', 'private'))
+                            ->disk(env('FILAMENT_FILESYSTEM_DISK', 'private'))
                             ->directory('products')
                             ->visibility('public')
                             ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
@@ -381,7 +381,7 @@ class ProductResource extends Resource
         return $table
             ->modifyQueryUsing(fn (Builder $query) => $query->with(['category', 'supplier']))            ->columns([
                 Tables\Columns\ImageColumn::make('image')
-                    ->disk('public')
+                    ->disk(env('FILAMENT_FILESYSTEM_DISK', 'private'))
                     ->height(50)
                     ->width(50)
                     ->square()
