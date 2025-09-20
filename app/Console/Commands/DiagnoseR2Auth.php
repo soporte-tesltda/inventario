@@ -118,8 +118,8 @@ class DiagnoseR2Auth extends Command
         $this->line('   🔧 Filament Filesystem Disk: ' . env('FILAMENT_FILESYSTEM_DISK', 'public'));
         
         $config = config('filesystems.disks.private');
-        $this->line('   🔧 Private Disk Endpoint: ' . $config['endpoint']);
-        $this->line('   🔧 Private Disk Region: ' . $config['region']);
+        $this->line('   🔧 Private Disk Endpoint: ' . ($config['endpoint'] ?? 'NOT SET'));
+        $this->line('   🔧 Private Disk Region: ' . ($config['region'] ?? 'NOT SET'));
         $this->line('   🔧 Private Disk Use Path Style: ' . ($config['use_path_style_endpoint'] ? 'true' : 'false'));
 
         $this->newLine();

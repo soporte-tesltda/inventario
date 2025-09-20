@@ -74,7 +74,19 @@ class CheckCloudConfig extends Command
             if ($key === 'secret') {
                 $value = substr($value, 0, 4) . str_repeat('*', max(0, strlen($value) - 8)) . substr($value, -4);
             }
-            $this->line("   {$key}: " . (is_bool($value) ? ($value ? 'true' : 'false') : $value));
+            
+            // Handle different value types
+            if (is_bool($value)) {
+                $displayValue = $value ? 'true' : 'false';
+            } elseif (is_array($value)) {
+                $displayValue = json_encode($value, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+            } elseif (is_null($value)) {
+                $displayValue = 'null';
+            } else {
+                $displayValue = (string) $value;
+            }
+            
+            $this->line("   {$key}: {$displayValue}");
         }
         $this->newLine();
 

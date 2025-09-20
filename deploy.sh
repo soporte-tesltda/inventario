@@ -78,9 +78,11 @@ echo "||====== Migrate, Seed database and generate roles and permissions"
 echo "||------------------------------------------------------------------"
 php artisan migrate --seed
 
-# create the super admin user
-php artisan make:filament-user --name=Admin --email=admin@example.com --password=12345678
+# create the super admin user - CHANGE THESE CREDENTIALS AFTER FIRST LOGIN!
+php artisan make:filament-user --name=Admin --email=admin@example.com --password=$(openssl rand -base64 16)
 php artisan shield:super-admin --user=1
+
+echo "IMPORTANT: Admin password generated randomly. Check deployment logs for credentials!"
 
 echo "||------------------------------------------------------------------"
 echo "||====== Here are your credentials"

@@ -12,6 +12,11 @@ class ImageProxyController extends Controller
 {
     public function show(Request $request, $path)
     {
+        // Validaciones de seguridad
+        if (!$this->isValidImagePath($path)) {
+            abort(404, 'Invalid image path');
+        }
+        
         // Decodificar el path
         $imagePath = 'products/' . $path;
         $cacheKey = 'image_cache_' . md5($imagePath);
@@ -78,12 +83,12 @@ class ImageProxyController extends Controller
         } catch (\Exception $e) {
             Cache::forget($quickDownloadKey);
             
-            \Log::error('Error serving image: ' . $e->getMessage(), [
-                'path' => $imagePath,
-                'requested_path' => $path,
+            \Log::error('Error serving image', [
+                'requested_file' => basename($path), // Solo el nombre del archivo, no el path completo
                 'error_type' => get_class($e),
+                'error_message' => $e->getMessage(),
                 'memory_usage' => memory_get_usage(true),
-                'time_limit' => ini_get('max_execution_time')
+                'user_agent' => substr($request->header('User-Agent', ''), 0, 100) // Limitar longitud
             ]);
             
             // Servir placeholder en caso de error
@@ -124,5 +129,29 @@ class ImageProxyController extends Controller
             'X-Served-By' => 'ImageProxy-Placeholder',
             'Refresh' => '5', // Auto-refresh después de 5 segundos
         ]);
+    }
+    
+    private function isValidImagePath($path): bool
+    {
+        // Prevenir directory traversal attacks
+        if (str_contains($path, '..') || str_contains($path, '/') || str_contains($path, '\\')) {
+            return false;
+        }
+        
+        // Validar extensiones permitidas
+        $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg'];
+        $extension = pathinfo($path, PATHINFO_EXTENSION);
+        
+        if (!in_array(strtolower($extension), $allowedExtensions)) {
+            return false;
+        }
+        
+        // Validar formato de nombre de archivo (ULID)
+        $filename = pathinfo($path, PATHINFO_FILENAME);
+        if (!preg_match('/^[0-9A-HJKMNP-TV-Z]{26}$/', $filename)) {
+            return false;
+        }
+        
+        return true;
     }
 }

@@ -39,8 +39,9 @@ class MakeImagesPublic extends Command
                 $imagePath = $product->image;
                 
                 // Remove any existing domain from the path
+                $r2BaseUrl = config('filesystems.disks.r2.url') . '/' . config('filesystems.disks.r2.bucket') . '/';
                 $imagePath = str_replace([
-                    'https://367be3a2035528943240074d0096e0cd.r2.cloudflarestorage.com/fls-9fe4b6bb-9be3-4819-bfab-ac2b4a5659ee/',
+                    $r2BaseUrl,
                     'products/'
                 ], '', $imagePath);
                 

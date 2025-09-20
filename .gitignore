@@ -18,6 +18,23 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
+.phpstorm.meta.php
+
+# Security - sensitive files that should never be committed
+*.key
+*.pem
+*.p12
+*.jks
+credentials.json
+secrets.json
+config.json
+.secrets
+.credentials
+
+# Backup files that might contain sensitive data
+*.sql
+*.dump
+*.backup
 
 # Exclude most vendor translations (keep only Spanish)
 lang/vendor/filament*/

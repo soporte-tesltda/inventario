@@ -75,10 +75,10 @@ class TestSignedUrls extends Command
         $this->info('3. VERIFICACIÓN CONFIGURACIÓN:');
         $diskConfig = config('filesystems.disks.private');
         $this->line('   🔧 Driver: ' . $diskConfig['driver']);
-        $this->line('   🗝️  Key: ' . substr($diskConfig['key'], 0, 8) . '...');
-        $this->line('   🪣 Bucket: ' . $diskConfig['bucket']);
-        $this->line('   🌐 Endpoint: ' . $diskConfig['endpoint']);
-        $this->line('   📍 Region: ' . $diskConfig['region']);
+        $this->line('   🗝️  Key: ' . ($diskConfig['key'] ? substr($diskConfig['key'], 0, 8) . '...' : 'NOT SET'));
+        $this->line('   🪣 Bucket: ' . ($diskConfig['bucket'] ?? 'NOT SET'));
+        $this->line('   🌐 Endpoint: ' . ($diskConfig['endpoint'] ?? 'NOT SET'));
+        $this->line('   📍 Region: ' . ($diskConfig['region'] ?? 'NOT SET'));
         $this->line('   🔗 Path Style: ' . ($diskConfig['use_path_style_endpoint'] ? 'true' : 'false'));
         
         if (isset($diskConfig['temporary_url_timeout'])) {
