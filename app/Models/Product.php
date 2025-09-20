@@ -140,8 +140,25 @@ class Product extends Model
 
         // Si la imagen está en S3 (prefijo products/), construir URL correcta para Cloudflare R2
         if (str_starts_with($this->image, 'products/')) {
+            // Intentar obtener configuración desde variables de entorno primero
             $endpoint = env('AWS_ENDPOINT');
             $bucket = env('AWS_BUCKET');
+            
+            // Si no están disponibles, intentar desde configuración del disco
+            if (!$endpoint || !$bucket) {
+                $diskConfig = config('filesystems.disks.private');
+                $endpoint = $diskConfig['endpoint'] ?? null;
+                $bucket = $diskConfig['bucket'] ?? null;
+            }
+            
+            // Si aún no tenemos endpoint/bucket, usar Storage URL como fallback
+            if (!$endpoint || !$bucket) {
+                try {
+                    return \Illuminate\Support\Facades\Storage::disk('private')->url($this->image);
+                } catch (\Exception $e) {
+                    return null;
+                }
+            }
             
             // Para Cloudflare R2 con path-style: endpoint/bucket/file
             return "{$endpoint}/{$bucket}/{$this->image}";
