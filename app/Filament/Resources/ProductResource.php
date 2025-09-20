@@ -380,13 +380,12 @@ class ProductResource extends Resource
     {
         return $table
             ->modifyQueryUsing(fn (Builder $query) => $query->with(['category', 'supplier']))            ->columns([
-                Tables\Columns\ImageColumn::make('image')
-                    ->disk(env('FILAMENT_FILESYSTEM_DISK', 'private'))
+                Tables\Columns\ImageColumn::make('image_url')
+                    ->label('Image')
                     ->height(50)
                     ->width(50)
                     ->square()
-                    ->defaultImageUrl(url('/images/placeholder-product.svg'))
-                    ->visibility('public'),
+                    ->defaultImageUrl(url('/images/placeholder-product.svg')),
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),                Tables\Columns\TextColumn::make('price')
                     ->money('COP')

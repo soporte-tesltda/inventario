@@ -130,7 +130,7 @@ class Product extends Model
     }
 
     /**
-     * Accessor para la imagen que maneja las rutas correctamente
+     * Accessor para la imagen que maneja las rutas correctamente con URLs firmadas para S3
      */
     public function getImageUrlAttribute(): ?string
     {
@@ -138,14 +138,20 @@ class Product extends Model
             return null;
         }
 
+        // Si la imagen está en S3 (prefijo products/), generar URL firmada
+        if (str_starts_with($this->image, 'products/')) {
+            try {
+                return \Illuminate\Support\Facades\Storage::disk('private')
+                    ->temporaryUrl($this->image, now()->addHours(1));
+            } catch (\Exception $e) {
+                // Fallback a URL directa si falla la firma
+                return \Illuminate\Support\Facades\Storage::disk('private')->url($this->image);
+            }
+        }
+
         // Si la imagen ya tiene el prefijo storage, devolverla tal como está
         if (str_starts_with($this->image, 'storage/')) {
             return asset($this->image);
-        }
-
-        // Si tiene el prefijo products/, usar el storage público
-        if (str_starts_with($this->image, 'products/')) {
-            return asset('storage/' . $this->image);
         }
 
         // Para imágenes sin prefijo, asumir que están en el directorio raíz de storage público
@@ -159,6 +165,11 @@ class Product extends Model
     {
         if (!$this->image) {
             return false;
+        }
+
+        // Si es una imagen de S3, verificar en el disco privado
+        if (str_starts_with($this->image, 'products/')) {
+            return \Illuminate\Support\Facades\Storage::disk('private')->exists($this->image);
         }
 
         $publicDisk = \Illuminate\Support\Facades\Storage::disk('public');
