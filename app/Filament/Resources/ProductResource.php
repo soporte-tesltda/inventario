@@ -380,12 +380,13 @@ class ProductResource extends Resource
     {
         return $table
             ->modifyQueryUsing(fn (Builder $query) => $query->with(['category', 'supplier']))            ->columns([
-                Tables\Columns\ImageColumn::make('image_url')
-                    ->label('Image')
+                Tables\Columns\ImageColumn::make('image')
+                    ->disk('private')
                     ->height(50)
                     ->width(50)
                     ->square()
-                    ->defaultImageUrl(url('/images/placeholder-product.svg')),
+                    ->defaultImageUrl(url('/images/placeholder-product.svg'))
+                    ->visibility('public'),
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),                Tables\Columns\TextColumn::make('price')
                     ->money('COP')
@@ -752,6 +753,7 @@ class ProductResource extends Resource
                 Infolists\Components\Section::make('Información del Producto')
                     ->schema([
                         Infolists\Components\ImageEntry::make('image')
+                            ->disk('private')
                             ->columnSpanFull(),
                         Infolists\Components\TextEntry::make('name')
                             ->label('Nombre'),
