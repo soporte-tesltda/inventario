@@ -12,7 +12,11 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        // $schedule->command('inspire')->hourly();
+        // Pre-cachear imágenes populares cada 4 horas
+        $schedule->command('app:precache-images --limit=100')
+                 ->everyFourHours()
+                 ->withoutOverlapping()
+                 ->runInBackground();
     }
 
     /**

@@ -58,8 +58,8 @@ return [
             'throw' => false,
             'options' => [
                 'http' => [
-                    'timeout' => 10, // Timeout de 10 segundos para operaciones HTTP
-                    'connect_timeout' => 5, // Timeout de conexión de 5 segundos
+                    'timeout' => 3, // Timeout ultra corto de 3 segundos
+                    'connect_timeout' => 2, // Timeout de conexión de 2 segundos
                 ]
             ],
         ],
